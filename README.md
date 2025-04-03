@@ -1,68 +1,44 @@
-📈 Análise de Desempenho de Marketing e Vendas
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-🔍 Visão Geral
+# Carregar os dados (substituir 'dados.csv' pelo arquivo correto)
+df = pd.read_csv('dados.csv')
 
-Este projeto tem como objetivo analisar o desempenho de campanhas de marketing e vendas utilizando Power BI e Python. Através da coleta, tratamento e visualização de dados, será possível identificar padrões, medir KPIs e prever resultados futuros para otimização de estratégias empresariais.
+# Exibir as primeiras linhas do dataset
+print(df.head())
 
-🔬 Tecnologias Utilizadas
+# Tratamento de dados
+## Remover valores nulos
+df.dropna(inplace=True)
 
-Python (Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn)
+## Converter colunas para formatos apropriados (exemplo: datas)
+df['data'] = pd.to_datetime(df['data'])
 
-Power BI (Dashboards interativos e relatórios dinâmicos)
+# Análise Exploratória
+## Estatísticas básicas
+print(df.describe())
 
-SQL (Opcional, para consultas em banco de dados)
+## Visualização de distribuição de vendas
+plt.figure(figsize=(10,5))
+sns.histplot(df['vendas'], bins=30, kde=True)
+plt.title('Distribuição das Vendas')
+plt.xlabel('Valor das Vendas')
+plt.ylabel('Frequência')
+plt.show()
 
-Excel/CSV (Arquivos de entrada de dados)
+# Cálculo de métricas importantes
+## Ticket médio
+ticket_medio = df['vendas'].mean()
+print(f'Ticket Médio: R${ticket_medio:.2f}')
 
-📊 Etapas do Projeto
+## Taxa de conversão (exemplo genérico, depende dos dados disponíveis)
+if 'leads' in df.columns and 'clientes' in df.columns:
+    taxa_conversao = (df['clientes'].sum() / df['leads'].sum()) * 100
+    print(f'Taxa de Conversão: {taxa_conversao:.2f}%')
 
-Coleta e Tratamento de Dados
-
-Importação de dados brutos (CSV, Excel, SQL)
-
-Limpeza e tratamento de dados com Python
-
-Análise Exploratória
-
-Identificação de padrões e correlações
-
-Análise de KPIs como ROI, taxa de conversão e ticket médio
-
-Criação de Dashboards no Power BI
-
-Visualização interativa dos resultados
-
-Gráficos dinâmicos para tomada de decisão
-
-Modelagem Preditiva (Opcional)
-
-Uso de machine learning para previsão de vendas
-
-Avaliação de tendências de mercado
-
-🌟 Benefícios
-
-Melhor compreensão do desempenho das campanhas de marketing
-
-Identificação de oportunidades para aumentar vendas
-
-Tomada de decisões baseada em dados reais
-
-📘 Como Utilizar
-
-Clone o repositório:
-
-git clone https://github.com/seu-usuario/analise-marketing-vendas.git
-
-Instale as dependências:
-
-pip install -r requirements.txt
-
-Execute o script de análise:
-
-python analise.py
-
-Importe os dados tratados para o Power BI e visualize os dashboards.
-
-Autor: Alan | Contato: alandiasdebrito2006@gmail.com.com
-
+# Salvar dados tratados
+## Criar um novo arquivo CSV com os dados limpos
+df.to_csv('dados_tratados.csv', index=False)
+print("Dados tratados salvos com sucesso!")
